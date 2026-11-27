@@ -55,6 +55,7 @@ export function validateQuiz(raw: unknown): ValidationResult {
         ? it.clueTags.filter((t): t is string => typeof t === "string" && t in CLUE_MAP).slice(0, 8)
         : [];
       item.note = str(it.note, 400) || undefined;
+      if (it.level === "kolay" || it.level === "orta" || it.level === "zor") item.level = it.level;
     } else {
       if (!item.name) return { ok: false, error: `${i + 1}. öğenin adı boş.` };
       if (!item.image && !item.emoji) return { ok: false, error: `"${item.name}" için görsel ya da emoji ekle.` };

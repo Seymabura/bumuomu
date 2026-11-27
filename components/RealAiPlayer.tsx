@@ -3,13 +3,25 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useToast } from "./Toast";
 import { CLUE_MAP } from "@/lib/clues";
-import { shareText, shuffle, verdict } from "@/lib/game";
+import { effectiveLevel, pickRound, shareText, shuffle, verdict } from "@/lib/game";
 import { setStreamerMode, shareOrCopy } from "@/lib/client";
-import type { Answer, Quiz, QuizItem } from "@/lib/types";
+import { LEVEL_LABELS, type Answer, type Level, type Quiz, type QuizItem } from "@/lib/types";
+
+/** Seviyeli setlerde bir turdaki görsel sayısı. */
+const ROUND = 12;
+type Pick = Level | "karisik";
+const LEVELS: { id: Pick; label: string; text: string }[] = [
+  { id: "kolay", label: "Kolay", text: "Klasik ipuçları hâlâ görünüyor: kusursuz stok pozlar, plastik cilt, fazla parlak renkler." },
+  { id: "orta", label: "Orta", text: "İlk bakışta inandırıcı. Işığa, arka plana ve küçük ayrıntılara bakman gerekecek." },
+  { id: "zor", label: "Zor", text: "En yeni modellerin en iyi kareleri ve yapay zekâya benzeyen gerçek fotoğraflar." },
+  { id: "karisik", label: "Karışık", text: "Her seviyeden rastgele görseller." },
+];
 
 const LABEL: Record<Answer, string> = { gercek: "Gerçek", yz: "Yapay zekâ" };
 
 export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; streamer: boolean }) {
+  const hasLevels = useMemo(() => quiz.items.some((i) => i.level), [quiz.items]);
+  const [level, setLevel] = useState<Pick | null>(hasLevels ? null : "karisik");
   const [order, setOrder] = useState<QuizItem[]>(() => quiz.items);
   const [idx, setIdx] = useState(0);
   const [guess, setGuess] = useState<Answer | null>(null);
@@ -20,7 +32,25 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
   const answers = useRef<{ itemId: string; correct: boolean }[]>([]);
 
   // Sıra yalnızca tarayıcıda karıştırılır (sunucu ile uyumsuzluk olmasın diye)
-  useEffect(() => setOrder(shuffle(quiz.items)), [quiz.items]);
+  useEffect(() => {
+    if (!hasLevels) setOrder(shuffle(quiz.items));
+  }, [quiz.items, hasLevels]);
+
+  const levelInfo = useMemo(() => {
+    const m: Record<Pick, { count: number; cover?: string }> = {
+      kolay: { count: 0 },
+      orta: { count: 0 },
+      zor: { count: 0 },
+      karisik: { count: quiz.items.length, cover: quiz.items.find((i) => i.answer === "yz")?.image },
+    };
+    for (const it of quiz.items) {
+      const lv = effectiveLevel(it, quiz.stats[it.id]);
+      if (!lv) continue;
+      m[lv].count++;
+      if (!m[lv].cover && it.answer === "yz") m[lv].cover = it.image;
+    }
+    return m;
+  }, [quiz.items, quiz.stats]);
   useEffect(() => {
     setStreamerMode(streamer);
     return () => setStreamerMode(false);
@@ -71,14 +101,18 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
     return () => window.removeEventListener("keydown", onKey);
   }, [guess, answer, next]);
 
-  const restart = () => {
-    setOrder(shuffle(quiz.items));
+  const start = (lv: Pick) => {
+    setLevel(lv);
+    setOrder(hasLevels ? pickRound(quiz.items, quiz.stats, lv === "karisik" ? null : lv, ROUND) : shuffle(quiz.items));
     setIdx(0);
     setGuess(null);
     setResults([]);
     setDone(false);
     answers.current = [];
   };
+  const restart = () => start(level ?? "karisik");
+  const levelName = hasLevels && level ? (level === "karisik" ? "Karışık" : LEVEL_LABELS[level]) : null;
+  const title = levelName ? `${quiz.title} · ${levelName}` : quiz.title;
 
   const streamerToggle = (
     <button className="btn ghost small" onClick={() => setStreamer((v) => !v)}>
@@ -86,10 +120,44 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
     </button>
   );
 
+  if (!level) {
+    return (
+      <div className="stack" style={{ gap: 22, maxWidth: 980, margin: "0 auto" }}>
+        <div className="stack" style={{ gap: 8 }}>
+          <span className="eyebrow ai-eyebrow">{quiz.title}</span>
+          <h1 className="level-title">Seviyeni seç</h1>
+          <p className="muted" style={{ maxWidth: 620 }}>
+            Her turda {ROUND} görsel gelir, bir kısmı fotoğraf, bir kısmı yapay zekâ. Seviyeler oyuncuların sonuçlarına
+            göre kendini ayarlar: çoğu kişinin bildiği görsel kolaya, çoğunu kandıran zora geçer.
+          </p>
+        </div>
+        <div className="level-grid">
+          {LEVELS.map((l) => {
+            const info = levelInfo[l.id];
+            if (l.id !== "karisik" && info.count < 4) return null;
+            return (
+              <button key={l.id} type="button" className={`level-card lv-${l.id}`} onClick={() => start(l.id)}>
+                {info.cover && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={info.cover} alt="" loading="lazy" />
+                )}
+                <span className="level-body">
+                  <span className="level-name">{l.label}</span>
+                  <span className="level-text">{l.text}</span>
+                  <span className="level-count num">{info.count} görsel</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   if (done) {
     const v = verdict(score, total);
     const url = typeof window !== "undefined" ? `${location.origin}/q/${quiz.slug}` : "";
-    const text = shareText({ title: quiz.title, correct: results, url });
+    const text = shareText({ title, correct: results, url });
     const missed = order.filter((_, i) => !results[i]);
     return (
       <div className="stack" style={{ gap: 24, maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
@@ -125,8 +193,13 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
             WhatsApp
           </a>
           <button className="btn ghost" onClick={restart}>
-            Tekrar oyna
+            {hasLevels ? "Yeni tur" : "Tekrar oyna"}
           </button>
+          {hasLevels && (
+            <button className="btn ghost" onClick={() => setLevel(null)}>
+              Seviye değiştir
+            </button>
+          )}
         </div>
         {missed.length > 0 && (
           <div className="panel stack" style={{ textAlign: "left" }}>
@@ -166,7 +239,7 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
     <div className="stack" style={{ gap: 18, maxWidth: streamer ? 1200 : 860, margin: "0 auto" }}>
       <div className="row" style={{ justifyContent: "space-between" }}>
         <div className="stack" style={{ gap: 2 }}>
-          <span className="eyebrow">{quiz.title}</span>
+          <span className="eyebrow">{title}</span>
           <h2 className="num">
             {idx + 1}. görsel <span className="count">{total} görselden, {score} doğru</span>
           </h2>

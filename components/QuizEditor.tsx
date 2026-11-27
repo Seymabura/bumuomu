@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { CLUES } from "@/lib/clues";
 import { getEditToken, saveEditToken, uploadImage } from "@/lib/client";
-import type { Answer, QuizInput, QuizItem, QuizMode } from "@/lib/types";
+import { LEVEL_LABELS, type Answer, type Level, type QuizInput, type QuizItem, type QuizMode } from "@/lib/types";
 
 let counter = 0;
 const newId = () => `o${Date.now().toString(36)}${(counter++).toString(36)}`;
@@ -249,6 +249,21 @@ export function QuizEditor({ initial, slug }: { initial?: QuizInput; slug?: stri
                           onClick={() => patch(it.id, { answer: a, clueTags: [] })}
                         >
                           {a === "gercek" ? "Gerçek" : "Yapay zekâ"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <span className="eyebrow">Zorluk</span>
+                    <div className="seg" role="group" aria-label="Zorluk">
+                      {(["kolay", "orta", "zor"] as Level[]).map((l) => (
+                        <button
+                          key={l}
+                          type="button"
+                          aria-pressed={it.level === l}
+                          onClick={() => patch(it.id, { level: it.level === l ? undefined : l })}
+                        >
+                          {LEVEL_LABELS[l]}
                         </button>
                       ))}
                     </div>

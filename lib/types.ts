@@ -7,6 +7,11 @@ export const MODE_LABELS: Record<QuizMode, string> = {
 
 export type Answer = "gercek" | "yz";
 
+/** Gerçek/YZ modunda görselin zorluk seviyesi. */
+export type Level = "kolay" | "orta" | "zor";
+
+export const LEVEL_LABELS: Record<Level, string> = { kolay: "Kolay", orta: "Orta", zor: "Zor" };
+
 export interface QuizItem {
   id: string;
   /** Görünen ad. Eleme modunda zorunlu, Gerçek/YZ modunda isteğe bağlı başlık. */
@@ -24,6 +29,11 @@ export interface QuizItem {
   clueTags?: string[];
   /** Görsele özel serbest açıklama: "Sol eldeki altıncı parmağa bak" gibi */
   note?: string;
+  /**
+   * Başlangıç zorluğu. Yeterince oynandıktan sonra gerçek zorluk oyuncuların
+   * doğru bilme oranından hesaplanır (bkz. effectiveLevel).
+   */
+  level?: Level;
 }
 
 export interface ItemStats {

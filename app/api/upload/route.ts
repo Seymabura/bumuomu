@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { randomBytes } from "node:crypto";
+import { saveImage } from "@/lib/images";
 
 /**
  * Tarayıcıda küçültülmüş görseli (data URL) alır.
  * BLOB_READ_WRITE_TOKEN tanımlıysa Vercel Blob'a yükleyip kalıcı adresini döner,
- * değilse aynı data URL'yi döner (görsel quiz verisinin içinde saklanır).
+ * değilse veritabanı varsa görseli Postgres'e kaydedip /api/img/... adresini döner,
+ * o da yoksa aynı data URL'yi döner (görsel quiz verisinin içinde saklanır).
  */
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as { dataUrl?: string } | null;
@@ -15,6 +17,12 @@ export async function POST(req: Request) {
   if (bytes.length > 1_500_000) return NextResponse.json({ error: "Görsel çok büyük (en fazla 1,5 MB)." }, { status: 413 });
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const url = await saveImage(bytes, m[1]);
+      if (url) return NextResponse.json({ url, stored: "db" });
+    } catch (e) {
+      console.error("Görsel veritabanına kaydedilemedi", e);
+    }
     return NextResponse.json({ url: body!.dataUrl, stored: "inline" });
   }
   const ext = m[1].split("/")[1].replace("jpeg", "jpg");

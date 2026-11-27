@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BracketArt } from "@/components/BracketArt";
+import { HeroDuel } from "@/components/HeroDuel";
 import { QuizGrid } from "@/components/QuizCard";
 import { getStore } from "@/lib/store";
 
@@ -16,57 +16,28 @@ export default async function Home() {
   return (
     <>
       <section className="wrap hero">
-        <div className="stack" style={{ gap: 28 }}>
+        <div className="stack" style={{ gap: 24 }}>
           <h1 className="hero-title">
-            <span className="bu">Bu mu</span>
-            <span className="ya-da">yoksa</span>
-            <span className="o">o mu?</span>
+            Bu mu, <span className="o">o mu?</span>
           </h1>
           <p className="hero-lede">
-            Seçenekler ikişer ikişer karşılaşır. Her eşleşmede birini seçersin, diğeri elenir. Tur tur ilerlersin ve
-            sonunda tek bir favori kalır.
+            İki seçenek karşı karşıya gelir, birini seçersin. Tur tur ilerlersin ve sonunda tek favorin kalır.
           </p>
-          <div className="row" style={{ gap: 14 }}>
-            <Link href={showcase ? `/q/${showcase.slug}/oyna` : "/kesfet"} className="btn sol">
-              Hemen oyna
+          <div className="row" style={{ gap: 12, marginTop: 8 }}>
+            <Link href="/olustur" className="btn sol">
+              Quiz oluştur
             </Link>
-            <Link href="/olustur" className="btn ghost">
-              Kendi quizini oluştur
+            <Link href="/kesfet" className="btn ghost">
+              Keşfet
             </Link>
           </div>
         </div>
-        {showcase && <BracketArt quiz={showcase} />}
+        {showcase && <HeroDuel items={showcase.items.slice(0, 16)} slug={showcase.slug} title={showcase.title} />}
       </section>
 
       <section className="wrap section">
-        <div className="steps">
-          <div className="step">
-            <span className="no">1</span>
-            <div>
-              <h3>Seçeneklerini ekle</h3>
-              <p>Bir konu seç, en az dört seçenek ekle. Görsel yükle ya da emoji kullan.</p>
-            </div>
-          </div>
-          <div className="step">
-            <span className="no">2</span>
-            <div>
-              <h3>Eşleşmeleri oyna</h3>
-              <p>8, 16 ya da 32 seçenekle başla. Her ikiliden birini seç, finale kadar git.</p>
-            </div>
-          </div>
-          <div className="step">
-            <span className="no">3</span>
-            <div>
-              <h3>Şampiyonunu paylaş</h3>
-              <p>Sonucunu arkadaşlarına gönder, herkesin favorisini topluluk sıralamasında gör.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="wrap section" style={{ paddingTop: 48 }}>
         <div className="section-head">
-          <h2>Yeni eklenen quizler</h2>
+          <h2>Yeni eklenenler</h2>
           <Link href="/kesfet?sirala=yeni" className="muted">
             Tümünü gör
           </Link>
@@ -81,7 +52,7 @@ export default async function Home() {
         />
       </section>
 
-      <section className="wrap section">
+      <section className="wrap section" style={{ paddingBottom: 48 }}>
         <div className="section-head">
           <h2>En çok oynananlar</h2>
           <Link href="/kesfet" className="muted">

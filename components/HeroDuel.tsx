@@ -4,10 +4,20 @@ import { useEffect, useState } from "react";
 import type { QuizItem } from "@/lib/types";
 
 /**
- * Ana sayfadaki canlı örnek: bir quizin seçenekleri ikişer ikişer belirir,
- * biri "seçilir", sonra sıradaki ikiliye geçilir. Tıklayınca quiz açılır.
+ * Ana sayfanın tam genişlik sahnesi: bir quizin fotoğrafları ikişer ikişer
+ * yan yana belirir, biri "seçilir", diğeri söner, sonra sıradaki ikiliye geçilir.
  */
-export function HeroDuel({ items, slug, title }: { items: QuizItem[]; slug: string; title: string }) {
+export function HeroDuel({
+  items,
+  slug,
+  title,
+  children,
+}: {
+  items: QuizItem[];
+  slug: string;
+  title: string;
+  children: React.ReactNode;
+}) {
   const pairs = Math.floor(items.length / 2);
   const [pair, setPair] = useState(0);
   const [phase, setPhase] = useState<"bekle" | "sec">("bekle");
@@ -27,7 +37,7 @@ export function HeroDuel({ items, slug, title }: { items: QuizItem[]; slug: stri
           setPair((p) => (p + 1) % pairs);
         }
       },
-      phase === "bekle" ? 1800 : 1300,
+      phase === "bekle" ? 2600 : 1500,
     );
     return () => clearTimeout(t);
   }, [phase, reduced, pairs]);
@@ -35,43 +45,35 @@ export function HeroDuel({ items, slug, title }: { items: QuizItem[]; slug: stri
   if (pairs < 1) return null;
   const a = items[pair * 2];
   const b = items[pair * 2 + 1];
-  // Sırayla bazen sol, bazen sağ kazansın
   const winner = pair % 3 === 1 ? b.id : a.id;
 
-  const card = (it: QuizItem) => (
+  const side = (it: QuizItem, cls: string) => (
     <div
-      className={`hd-card${phase === "sec" ? (it.id === winner ? " win" : " lose") : ""}`}
       key={`${pair}-${it.id}`}
+      className={`stage-side ${cls}${phase === "sec" ? (it.id === winner ? " win" : " lose") : ""}`}
+      aria-hidden="true"
     >
-      <div className="art" aria-hidden="true">
-        {it.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={it.image} alt="" />
-        ) : (
-          it.emoji ?? "❔"
-        )}
-      </div>
-      <div className="label">
-        <span>{it.name}</span>
-        <span className="tick" aria-hidden="true">
-          ✓
-        </span>
-      </div>
+      {it.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={it.image} alt="" />
+      )}
+      <span className="stage-name">{it.name}</span>
     </div>
   );
 
   return (
-    <figure style={{ margin: 0, minWidth: 0 }}>
-      <Link href={`/q/${slug}/oyna`} className={`hd${phase === "bekle" && !reduced ? " swap" : ""}`} aria-label={`${title} quizini oyna`}>
-        {card(a)}
-        <span className="vs" aria-hidden="true">
+    <section className="stage">
+      <Link href={`/q/${slug}/oyna`} className="stage-photos" aria-label={`${title} quizini oyna`} tabIndex={-1}>
+        {side(a, "l")}
+        {side(b, "r")}
+        <span className="vs stage-vs" aria-hidden="true">
           VS
         </span>
-        {card(b)}
       </Link>
-      <figcaption className="hd-caption">
-        Örnek eşleşme: <Link href={`/q/${slug}`}>{title}</Link>
-      </figcaption>
-    </figure>
+      <div className="stage-copy wrap">{children}</div>
+      <p className="stage-caption wrap">
+        Şu an oynanıyor: <Link href={`/q/${slug}`}>{title}</Link>
+      </p>
+    </section>
   );
 }

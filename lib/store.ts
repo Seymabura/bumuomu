@@ -1,7 +1,7 @@
 import "server-only";
 import { createHash, randomBytes } from "node:crypto";
 import { neon } from "@neondatabase/serverless";
-import { SEED_QUIZZES } from "@/data/seed";
+import { RETIRED_SEED_IDS, SEED_QUIZZES } from "@/data/seed";
 import { slugify } from "./game";
 import type { ItemStats, PlayResult, Quiz, QuizInput, QuizSummary } from "./types";
 
@@ -182,13 +182,17 @@ function postgresStore(url: string): Store {
         PRIMARY KEY (quiz_id, item_id)
       )`;
       await sql`CREATE INDEX IF NOT EXISTS quizzes_plays_idx ON quizzes (plays DESC)`;
-      const [{ n }] = (await sql`SELECT count(*)::int AS n FROM quizzes`) as { n: number }[];
-      if (n === 0) {
-        for (const s of SEED_QUIZZES) {
+      // Örnek quizler her açılışta güncel tutulur (oynanma sayıları korunur), eskiler kaldırılır.
+      await sql`DELETE FROM quizzes WHERE id = ANY(${RETIRED_SEED_IDS})`;
+      for (const s of SEED_QUIZZES) {
+        try {
           await sql`INSERT INTO quizzes (id, slug, mode, title, description, author, cover, items, plays, created_at)
             VALUES (${s.id}, ${s.slug}, ${s.mode}, ${s.title}, ${s.description}, ${s.author}, ${s.cover ?? null},
                     ${JSON.stringify(s.items)}::jsonb, ${s.plays}, ${s.createdAt})
-            ON CONFLICT DO NOTHING`;
+            ON CONFLICT (id) DO UPDATE SET mode = EXCLUDED.mode, title = EXCLUDED.title,
+              description = EXCLUDED.description, cover = EXCLUDED.cover, items = EXCLUDED.items`;
+        } catch (e) {
+          console.error("Örnek quiz eklenemedi", s.slug, e);
         }
       }
     })().catch((e) => {

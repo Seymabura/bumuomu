@@ -26,10 +26,17 @@ export default async function QuizPage({ params }: P) {
   const isElim = quiz.mode === "eleme";
   const ranking = isElim ? rankItems(quiz.items, quiz.stats).slice(0, 10) : [];
   const anyStats = ranking.some((r) => r.seen > 0);
+  const cover = quiz.cover ?? quiz.items.find((i) => i.image)?.image;
+  const strip = isElim ? quiz.items.filter((i) => i.image).slice(0, 8) : [];
 
   return (
-    <div className="wrap section stack" style={{ gap: 28 }}>
-      <div className="stack" style={{ gap: 14 }}>
+    <>
+    <section className="q-hero">
+      {cover && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="q-hero-bg" src={cover} alt="" />
+      )}
+      <div className="wrap stack q-hero-copy" style={{ gap: 14 }}>
         <span className={`pill mode-${quiz.mode}`} style={{ alignSelf: "flex-start" }}>
           {MODE_LABELS[quiz.mode]}
         </span>
@@ -56,6 +63,22 @@ export default async function QuizPage({ params }: P) {
         </div>
         <OwnerTools slug={quiz.slug} />
       </div>
+    </section>
+    <div className="wrap section stack" style={{ gap: 28 }}>
+      {strip.length > 0 && (
+        <section className="stack" style={{ gap: 14 }}>
+          <h2>Bu quizde</h2>
+          <div className="strip">
+            {strip.map((it) => (
+              <figure key={it.id} className="strip-item">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={it.image} alt={it.name} loading="lazy" />
+                <figcaption>{it.name}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
       {isElim && (
         <section className="panel stack">
@@ -110,5 +133,6 @@ export default async function QuizPage({ params }: P) {
         </section>
       )}
     </div>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MODE_LABELS, type QuizSummary } from "@/lib/types";
+import type { QuizSummary } from "@/lib/types";
 
 export function QuizCard({ q }: { q: QuizSummary }) {
   return (
@@ -15,13 +15,14 @@ export function QuizCard({ q }: { q: QuizSummary }) {
             ))}
           </div>
         )}
-        <span className={`pill mode-${q.mode} mode-tag`}>{MODE_LABELS[q.mode]}</span>
-      </div>
-      <div className="body">
-        <h3>{q.title}</h3>
-        <span className="meta num">
-          {q.itemCount} seçenek, {q.plays ? `${q.plays.toLocaleString("tr-TR")} kez oynandı` : "henüz oynanmadı"}
-        </span>
+        <span className={`pill mode-${q.mode} mode-tag`}>{q.mode === "gercek-yz" ? "Gerçek mi, YZ mi?" : "Bu mu O mu?"}</span>
+        <div className="body">
+          <h3>{q.title}</h3>
+          <span className="meta num">
+            {q.itemCount} {q.mode === "gercek-yz" ? "görsel" : "seçenek"} ·{" "}
+            {q.plays ? `${q.plays.toLocaleString("tr-TR")} kez oynandı` : "yeni"}
+          </span>
+        </div>
       </div>
     </Link>
   );

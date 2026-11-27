@@ -1,4 +1,5 @@
 import type { Quiz, QuizItem } from "@/lib/types";
+import { YZ_SEVIYE_ITEMS } from "./seed-yz-seviyeler";
 
 /**
  * Sitede hazır gelen örnek quizler.
@@ -23,6 +24,18 @@ const base = { author: "Bu mu O mu?", plays: 0, stats: {} } as const;
 export const RETIRED_SEED_IDS = ["seed-sokak", "seed-guc", "seed-kahvalti"];
 
 export const SEED_QUIZZES: Quiz[] = [
+  {
+    ...base,
+    id: "seed-yz-seviye",
+    slug: "gercek-mi-yapay-zeka-mi-seviyeler",
+    mode: "gercek-yz",
+    title: "Gerçek mi, yapay zekâ mı? Kolay, orta, zor",
+    description:
+      "Midjourney v7, GPT Image, FLUX.2, Seedream ve daha fazlası. Yüzü aşkın görsel, üç seviye. Her turdan sonra görseli ele veren ipuçlarını öğren.",
+    createdAt: "2026-11-27T13:00:00.000Z",
+    cover: YZ_SEVIYE_ITEMS.find((i) => i.id === "y5618")?.image,
+    items: YZ_SEVIYE_ITEMS,
+  },
   {
     ...base,
     id: "seed-yz-1",

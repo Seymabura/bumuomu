@@ -159,7 +159,7 @@ export function TournamentPlayer({ quiz, streamer: initialStreamer }: { quiz: Qu
           <span className="eyebrow">{quiz.title}</span>
           <h2 className="num">
             {roundName(inRound)}{" "}
-            <span className="muted" style={{ fontWeight: 600 }}>
+            <span className="count">
               {matchNo}/{inRound / 2}
             </span>
           </h2>

@@ -1,50 +1,22 @@
-/* Yerleşim fikri: her şey iki taraf arasında bir seçim. Sol taraf mercan kırmızısı, sağ taraf elektrik mavisi,
-   ortada "VS" mührü. Sakin, serin bir zemin üstünde bu iki renk yalnızca seçim anlarında öne çıkar. */
+/* Yerleşim fikri: gece kulübünün kadife salonu. Koyu patlıcan zemin, fildişi metin. İki taraf iki değerli metal gibi:
+   "Bu" şampanya altını, "O" inci leylağı. Cesaret tek yerde: ana sayfadaki eşleşme tablosu. Gerisi sakin ve ince. */
 :root {
-  --paper: #f2f3f8;
-  --card: #ffffff;
-  --ink: #15172b;
-  --muted: #5a5e79;
-  --line: #d9dce8;
-  --sol: #f2453a;
-  --sag: #2c58f5;
-  --ok: #0f9a4c;
-  --bad: #d93436;
-  --gold: #e3a008;
-  --shadow: 0 1px 2px rgba(21, 23, 43, 0.06), 0 8px 24px rgba(21, 23, 43, 0.06);
-  --font-display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
-  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --radius: 14px;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0e1020;
-    --card: #171a30;
-    --ink: #eef0fa;
-    --muted: #9a9ebb;
-    --line: #2a2e4b;
-    --sol: #ff6458;
-    --sag: #6283ff;
-    --ok: #34c472;
-    --bad: #ff5b5d;
-    --gold: #f5b82e;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #0e1020;
-  --card: #171a30;
-  --ink: #eef0fa;
-  --muted: #9a9ebb;
-  --line: #2a2e4b;
-  --sol: #ff6458;
-  --sag: #6283ff;
-  --ok: #34c472;
-  --bad: #ff5b5d;
-  --gold: #f5b82e;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --paper: #1d1425;
+  --card: #271c31;
+  --raise: #31243d;
+  --ink: #f3ede4;
+  --muted: #ab9fb6;
+  --line: #3d2f49;
+  --sol: #e2b86c;
+  --sag: #b9a8f3;
+  --on-accent: #1d1425;
+  --ok: #7fd3a1;
+  --bad: #f2837f;
+  --gold: #e2b86c;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 6px;
   color-scheme: dark;
 }
 
@@ -75,22 +47,22 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
   text-wrap: balance;
   margin: 0;
 }
 h1 {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  font-weight: 800;
+  font-size: clamp(2.2rem, 5.4vw, 3.8rem);
+  font-weight: 600;
 }
 h2 {
-  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
-  font-weight: 700;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 600;
 }
 h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 p {
   margin: 0;
@@ -121,14 +93,18 @@ p {
   color: var(--muted);
 }
 .eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--muted);
 }
 .num {
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.count {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.6em;
+  color: var(--muted);
 }
 
 /* Üst bar */
@@ -157,10 +133,11 @@ body::before {
 }
 .logo {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.25rem;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.45rem;
   text-decoration: none;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .logo .s {
@@ -182,11 +159,12 @@ body::before {
   color: var(--muted);
 }
 .nav a.btn {
-  color: var(--paper);
+  color: var(--on-accent);
+  background: var(--sol);
   padding: 8px 16px;
 }
 .nav a.btn:hover {
-  background: var(--ink);
+  background: var(--sol);
 }
 .nav a:hover {
   color: var(--ink);
@@ -202,8 +180,9 @@ body::before {
   font: inherit;
   font-weight: 700;
   border: 0;
-  border-radius: 999px;
-  padding: 12px 20px;
+  border-radius: 4px;
+  padding: 13px 22px;
+  letter-spacing: 0.01em;
   cursor: pointer;
   text-decoration: none;
   background: var(--ink);
@@ -232,11 +211,11 @@ body::before {
 }
 .btn.sol {
   background: var(--sol);
-  color: #fff;
+  color: var(--on-accent);
 }
 .btn.sag {
   background: var(--sag);
-  color: #fff;
+  color: var(--on-accent);
 }
 .btn.danger {
   background: transparent;
@@ -262,7 +241,7 @@ select {
   color: var(--ink);
   background: var(--card);
   border: 1.5px solid var(--line);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 10px 12px;
   width: 100%;
   min-width: 0;
@@ -296,12 +275,15 @@ select:focus {
   color: var(--muted);
   white-space: nowrap;
 }
+.pill {
+  backdrop-filter: blur(6px);
+}
 .pill.mode-gercek-yz {
-  background: color-mix(in srgb, var(--sag) 14%, transparent);
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
   color: var(--sag);
 }
 .pill.mode-eleme {
-  background: color-mix(in srgb, var(--sol) 14%, transparent);
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
   color: var(--sol);
 }
 .error {
@@ -312,29 +294,30 @@ select:focus {
 /* Quiz kartları */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 32px 24px;
 }
 .qcard {
   display: flex;
   flex-direction: column;
+  gap: 12px;
   text-decoration: none;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.qcard:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  min-width: 0;
 }
 .qcard .cover {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   max-width: 100%;
-  background: color-mix(in srgb, var(--ink) 5%, var(--card));
+  background: var(--card);
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius);
+  outline: 1px solid var(--line);
+  outline-offset: -1px;
+  transition: outline-color 0.2s ease;
+}
+.qcard:hover .cover,
+.qcard:focus-visible .cover {
+  outline-color: var(--gold);
 }
 .qcard .cover img {
   width: 100%;
@@ -354,25 +337,28 @@ select:focus {
 }
 .emoji-cover span:nth-child(1),
 .emoji-cover span:nth-child(4) {
-  background: color-mix(in srgb, var(--sol) 12%, transparent);
+  background: var(--card);
 }
 .emoji-cover span:nth-child(2),
 .emoji-cover span:nth-child(3) {
-  background: color-mix(in srgb, var(--sag) 12%, transparent);
+  background: var(--raise);
+}
+.qcard .mode-tag {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
 }
 .qcard .body {
-  padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex: 1;
+  gap: 4px;
+}
+.qcard h3 {
+  font-size: 1.25rem;
 }
 .qcard .meta {
-  display: flex;
-  gap: 10px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--muted);
-  margin-top: auto;
 }
 
 /* VS mührü */
@@ -382,12 +368,14 @@ select:focus {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
   font-family: var(--font-display);
-  font-weight: 800;
+  font-style: italic;
+  font-weight: 600;
   font-size: 1.35rem;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   box-shadow: 0 0 0 6px var(--paper);
   flex: none;
 }
@@ -405,7 +393,7 @@ select:focus {
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  border-radius: 18px;
+  border-radius: 8px;
   overflow: hidden;
   background: var(--card);
   border: 3px solid transparent;
@@ -490,7 +478,7 @@ select:focus {
 }
 .progress > div {
   height: 100%;
-  background: linear-gradient(90deg, var(--sol), var(--sag));
+  background: var(--gold);
   transition: width 0.3s ease;
 }
 
@@ -513,7 +501,7 @@ select:focus {
 .thumb {
   width: 52px;
   height: 52px;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -540,7 +528,7 @@ select:focus {
 /* Gerçek / YZ oyunu */
 .photo-frame {
   position: relative;
-  border-radius: 18px;
+  border-radius: 8px;
   overflow: hidden;
   background: #000;
   box-shadow: var(--shadow);
@@ -559,11 +547,11 @@ select:focus {
   top: 16px;
   left: 16px;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 4px;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--on-accent);
   transform: rotate(-4deg);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
@@ -581,14 +569,14 @@ select:focus {
 .answer-buttons .btn {
   padding: 18px;
   font-size: 1.1rem;
-  border-radius: 14px;
+  border-radius: 6px;
 }
 .verdict-banner {
   display: flex;
   align-items: center;
   gap: 12px;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.4rem;
 }
 .verdict-banner.ok {
@@ -616,9 +604,9 @@ select:focus {
   border-radius: 8px;
   display: grid;
   place-items: center;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--on-accent);
 }
 .clue-icon.yz {
   background: var(--sag);
@@ -641,13 +629,13 @@ select:focus {
   align-items: start;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 6px;
   background: var(--card);
 }
 .item-editor .preview {
   width: 96px;
   height: 96px;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -688,11 +676,11 @@ select:focus {
 }
 .seg button.gercek[aria-pressed="true"] {
   background: var(--ok);
-  color: #fff;
+  color: var(--on-accent);
 }
 .seg button.yz[aria-pressed="true"] {
   background: var(--sag);
-  color: #fff;
+  color: var(--on-accent);
 }
 .chips {
   display: flex;
@@ -730,7 +718,7 @@ select:focus {
   box-sizing: border-box;
   cursor: pointer;
   padding: 18px;
-  border-radius: 14px;
+  border-radius: 6px;
   border: 2px solid var(--line);
   background: var(--card);
   display: flex;
@@ -744,62 +732,155 @@ select:focus {
 
 /* Ana sayfa */
 .hero {
-  padding-block: 48px 32px;
+  padding-block: 64px 40px;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 56px;
   align-items: center;
 }
-.hero-duel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-duel .side {
-  flex: 1;
-  aspect-ratio: 3 / 4;
-  max-width: 220px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  font-size: clamp(3.5rem, 9vw, 6rem);
-  color: #fff;
-  font-family: var(--font-display);
-  font-weight: 800;
-}
-.hero-duel .side.l {
-  background: var(--sol);
-  transform: rotate(-4deg);
-  margin-right: -18px;
-}
-.hero-duel .side.r {
-  background: var(--sag);
-  transform: rotate(4deg);
-  margin-left: -18px;
-}
-.hero-duel .vs {
-  position: relative;
-  z-index: 2;
-}
-.modes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-.mode-card {
-  border-radius: var(--radius);
-  padding: 24px;
+.hero-title {
+  font-size: clamp(3rem, 7.5vw, 6rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  text-decoration: none;
-  border: 1px solid var(--line);
-  background: var(--card);
 }
-.mode-card .tag {
-  width: 40px;
-  height: 6px;
-  border-radius: 999px;
+.hero-title .bu {
+  color: var(--sol);
+  font-style: italic;
+}
+.hero-title .ya-da {
+  font-family: var(--font-body);
+  font-size: max(0.22em, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  padding-block: 0.5em 0.3em;
+}
+.hero-title .o {
+  color: var(--sag);
+  font-style: italic;
+}
+.hero-lede {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+/* Ana sayfadaki eşleşme tablosu */
+.bracket-wrap {
+  min-width: 0;
+}
+.bracket {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1.3fr)) minmax(0, 1fr);
+  gap: 0;
+  position: relative;
+}
+.b-round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 0;
+}
+.b-pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 8px;
+  padding-right: 18px;
+  flex: 1;
+}
+.b-pair::after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  right: 6px;
+  width: 12px;
+  border: 1px solid var(--line);
+  border-left: 0;
+}
+.b-slot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--card);
+  font-size: 0.85rem;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.b-slot .e {
+  font-size: 1.05rem;
+  flex: none;
+}
+.b-slot .n {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.b-slot.out {
+  color: var(--muted);
+  opacity: 0.55;
+}
+.b-champ {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  padding-left: 10px;
+}
+.b-champ .b-slot {
+  max-width: 100%;
+  border-color: var(--gold);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  padding: 12px 14px;
+  white-space: normal;
+}
+.b-caption {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.b-caption a {
+  color: var(--ink);
+}
+
+/* Nasıl oynanır: gerçekten sıralı üç adım */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+.step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+.step .no {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--gold);
+}
+.step p {
+  color: var(--muted);
+  margin-top: 6px;
 }
 .section {
   padding-block: 28px;
@@ -845,11 +926,52 @@ footer.site {
 @media (max-width: 760px) {
   .hero {
     grid-template-columns: 1fr;
-    padding-block: 28px 12px;
-    gap: 28px;
+    padding-block: 36px 16px;
+    gap: 36px;
   }
-  .modes {
+  .steps {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .bracket .n {
+    display: none;
+  }
+  .b-champ .n {
+    display: inline;
+  }
+  .bracket {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.4fr);
+  }
+  .b-champ {
+    padding-left: 6px;
+    min-width: 0;
+  }
+  .b-champ .b-slot {
+    font-size: 0.95rem;
+    padding: 8px;
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 14px;
+  }
+  .qcard h3 {
+    font-size: 1.05rem;
+  }
+  .emoji-cover span {
+    font-size: 1.6rem;
+  }
+  .b-pair {
+    padding-right: 12px;
+  }
+  .b-pair::after {
+    right: 3px;
+    width: 8px;
+  }
+  .b-slot {
+    justify-content: center;
+    padding: 6px 4px;
   }
   .duel {
     gap: 10px;

@@ -94,7 +94,7 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
     return (
       <div className="stack" style={{ gap: 24, maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
         <span className="eyebrow">Sonuç</span>
-        <h1 className="num">
+        <h1 className="num" style={{ fontFamily: "var(--font-body)", fontWeight: 600 }}>
           {score}/{total}
         </h1>
         <div className="stack" style={{ gap: 6 }}>
@@ -168,10 +168,7 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
         <div className="stack" style={{ gap: 2 }}>
           <span className="eyebrow">{quiz.title}</span>
           <h2 className="num">
-            {idx + 1}/{total}{" "}
-            <span className="muted" style={{ fontWeight: 600, fontSize: "1rem" }}>
-              · {score} doğru
-            </span>
+            {idx + 1}. görsel <span className="count">{total} görselden, {score} doğru</span>
           </h2>
         </div>
         {streamerToggle}
@@ -188,11 +185,11 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
 
       {!guess ? (
         <div className="answer-buttons">
-          <button className="btn" style={{ background: "var(--ok)", color: "#fff" }} onClick={() => answer("gercek")}>
-            📷 Gerçek <span className="key" style={{ color: "#fff", borderColor: "rgba(255,255,255,.5)" }}>G</span>
+          <button className="btn" style={{ background: "var(--ok)", color: "var(--on-accent)" }} onClick={() => answer("gercek")}>
+            📷 Gerçek <span className="key" style={{ color: "var(--on-accent)", borderColor: "currentColor" }}>G</span>
           </button>
           <button className="btn sag" onClick={() => answer("yz")}>
-            🤖 Yapay zekâ <span className="key" style={{ color: "#fff", borderColor: "rgba(255,255,255,.5)" }}>Y</span>
+            🤖 Yapay zekâ <span className="key" style={{ color: "var(--on-accent)", borderColor: "currentColor" }}>Y</span>
           </button>
         </div>
       ) : (

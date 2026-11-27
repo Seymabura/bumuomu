@@ -41,7 +41,7 @@ export function RealAiPlayer({ quiz, streamer: initialStreamer }: { quiz: Quiz; 
       kolay: { count: 0 },
       orta: { count: 0 },
       zor: { count: 0 },
-      karisik: { count: quiz.items.length, cover: quiz.items.find((i) => i.answer === "yz")?.image },
+      karisik: { count: quiz.items.length, cover: (quiz.items.find((i) => i.answer === "gercek" && i.level === "zor") ?? quiz.items[0])?.image },
     };
     for (const it of quiz.items) {
       const lv = effectiveLevel(it, quiz.stats[it.id]);

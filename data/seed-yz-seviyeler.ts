@@ -91,7 +91,7 @@ const AI: AiRow[] = [
   [810, "mj7", "zor", "Kahve satıcısı", ["arka-plan", "eller"], "Belgesel fotoğrafı gibi ve çok inandırıcı. Tezgâhtaki nesnelerin kenarlarına ve arka planda yarım kalan şekillere bak."],
   [828, "mj7", "zor", "Kafede iki adam", ["eller", "yazi", "arka-plan"], "Doğal ışık, sıradan bir masa: yeni modellerin en iyi yaptığı türden kare. Ellerin bardaklarla temas ettiği yerlere ve arkadaki yazılara bak."],
   [1746, "mj7", "zor", "Kaniş", ["sac-kenar", "fazla-kusursuz"], "Tüyler son derece ayrıntılı. Tek ipucu tüylerin arka planla birleştiği kenarlarda: tek tek kıl yerine yumuşak bir hale var."],
-  [1808, "mj7", "zor", "Sera", ["geometri", "doku-tekrar"], "Cam bölmelerin çizgilerini ve yaprakları takip et. Yapay zekâ uzaktaki tekrar eden yapıları çoğu zaman düzensiz bırakır, yapraklar da birbirinin kopyası olur."],
+  [1808, "mj7", "zor", "Sera", ["geometri", "doku-tekrar"], "Seradaki iki adam ve fasulye sırıkları çok inandırıcı. Çatıdaki direklerin ve tellerin çizgilerini takip et, arkadaki üçüncü kişiye bak: uzaktaki ayrıntılar netleşmiyor, yapraklar da birbirinin kopyası gibi."],
   [2444, "mj7", "zor", "And dağlarında vadi", ["arka-plan", "geometri"], "Manzaralar yapay zekânın en güçlü olduğu alan. Tek ipucu uzaktaki küçük ayrıntılar: evler, yollar ve teraslar yaklaşınca anlamlı şekillere dönüşmüyor."],
   [4802, "mj7", "zor", "Kanyon", ["fazla-kusursuz"], "Kayalar, ışık ve derinlik çok inandırıcı. Tek ipucu her katmandaki fazla pürüzsüz renk geçişleri. Bunu bilmek gerçekten zor."],
   [4957, "mj7", "zor", "El sıkışma", ["eller", "arka-plan"], "Klasik stok konu ve eller beklenenden iyi. Parmakların kavuştuğu yere ve gömlek manşetlerine yakından bak, arka plan da fazla bulanık."],

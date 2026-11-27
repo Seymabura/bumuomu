@@ -19,14 +19,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500;1,6..96,600&family=Figtree:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&display=swap"
         />
       </head>
       <body>
         <header className="topbar">
           <div className="wrap">
             <Link href="/" className="logo">
-              <span className="s">Bu mu</span> <span className="g">o mu?</span>
+              <span className="s">Bu mu,</span> <span className="g">o mu?</span>
             </Link>
             <nav className="nav" aria-label="Ana menü">
               <Link href="/kesfet">Keşfet</Link>

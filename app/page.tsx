@@ -16,9 +16,12 @@ export default async function Home() {
   const newer = fresh.filter((q) => !top.some((t) => t.id === q.id) && q.mode === "eleme").slice(0, 8);
   const showcase = popular.find((q) => q.cover?.startsWith("http")) ?? popular[0];
   const show = showcase ? await store.get(showcase.slug) : null;
-  const ai = aiSets[0] ? await store.get(aiSets[0].slug) : null;
+  const aiMain = aiSets.find((q) => q.id === "seed-yz-seviye") ?? aiSets[0];
+  const ai = aiMain ? await store.get(aiMain.slug) : null;
   const aiPair = ai
-    ? [ai.items.find((i) => i.answer === "gercek"), ai.items.find((i) => i.answer === "yz")].filter(Boolean)
+    ? (["gercek", "yz"] as const)
+        .map((a) => ai.items.find((i) => i.answer === a && i.level === "zor") ?? ai.items.find((i) => i.answer === a))
+        .filter(Boolean)
     : [];
 
   const copy = (
@@ -96,8 +99,8 @@ export default async function Home() {
               <span className="eyebrow ai-eyebrow">Yeni mod</span>
               <h2 className="ai-title">Gerçek mi, yapay zekâ mı?</h2>
               <p className="muted">
-                Bu iki kareden biri fotoğraf, biri yapay zekâ. Hangisi? Her turdan sonra görseli ele veren ipuçlarını
-                öğren, gözünü eğit.
+                Bu iki kareden biri fotoğraf, biri yapay zekâ. Hangisi? Kolay, orta ya da zor seviyeyi seç, her turdan
+                sonra görseli ele veren ipuçlarını öğren.
               </p>
               <span className="btn yz">Teste başla</span>
             </div>

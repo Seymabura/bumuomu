@@ -1,4 +1,4 @@
-import type { ItemStats, QuizItem } from "./types";
+import type { ItemStats, Level, QuizItem } from "./types";
 
 /** Fisher-Yates karıştırma. rand enjekte edilebilir (test için). */
 export function shuffle<T>(arr: readonly T[], rand: () => number = Math.random): T[] {
@@ -116,4 +116,40 @@ export function slugify(title: string): string {
       .replace(/^-+|-+$/g, "")
       .slice(0, 60) || "quiz"
   );
+}
+
+/** Bir görselin seviyesini oyuncuların doğru bilme oranına göre ayarlamak için gereken en az cevap. */
+export const LEVEL_MIN_SEEN = 20;
+
+/**
+ * Görselin şu anki zorluğu. Yeterince cevaplandıysa doğru bilme oranına göre:
+ * %75 üstü kolay, %45 ile %75 arası orta, altı zor. Yoksa quiz sahibinin verdiği seviye.
+ */
+export function effectiveLevel(item: QuizItem, st?: ItemStats): Level | undefined {
+  if (st && st.seen >= LEVEL_MIN_SEEN) {
+    const rate = st.wins / st.seen;
+    return rate > 0.75 ? "kolay" : rate >= 0.45 ? "orta" : "zor";
+  }
+  return item.level;
+}
+
+/**
+ * Seçilen seviyeden bir tur oluşturur. Gerçek ve YZ görselleri olabildiğince dengeli karışır.
+ * level verilmezse (karışık) tüm görsellerden seçer.
+ */
+export function pickRound(
+  items: QuizItem[],
+  stats: Record<string, ItemStats>,
+  level: Level | null,
+  size: number,
+  rand: () => number = Math.random,
+): QuizItem[] {
+  const pool = level ? items.filter((i) => effectiveLevel(i, stats[i.id]) === level) : items;
+  const real = shuffle(pool.filter((i) => i.answer === "gercek"), rand);
+  const ai = shuffle(pool.filter((i) => i.answer !== "gercek"), rand);
+  const n = Math.min(size, pool.length);
+  let r = Math.min(real.length, Math.round(n * (0.35 + rand() * 0.3)));
+  let a = Math.min(ai.length, n - r);
+  r = Math.min(real.length, n - a);
+  return shuffle([...real.slice(0, r), ...ai.slice(0, a)], rand);
 }

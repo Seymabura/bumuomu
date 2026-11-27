@@ -86,6 +86,13 @@ export const CLUES: Clue[] = [
     points: "yz",
   },
   {
+    id: "stok-poz",
+    label: "Katalog gibi kurgulanmış poz",
+    explain:
+      "Kusursuz gülümseme, abartılı jest, sade fon, her şey bir reklam için dizilmiş gibi. Modeller milyonlarca stok fotoğraftan öğrendiği için bu pozları çok sever.",
+    points: "yz",
+  },
+  {
     id: "doku-tekrar",
     label: "Tekrarlanan dokular",
     explain:
@@ -134,6 +141,13 @@ export const CLUES: Clue[] = [
     label: "Doğru anatomi",
     explain:
       "Eller, dişler, kulaklar ve takılar ayrıntıda bile mantıklı; iki taraf arasında beklenen simetri ve beklenen asimetri var.",
+    points: "gercek",
+  },
+  {
+    id: "amator-kare",
+    label: "Sıradan, kusurlu kadraj",
+    explain:
+      "Eğik çekilmiş, konusu kenara kaymış, önemsiz bir an. İnsanlar telefonla böyle kareler çeker; yapay zekâ ise istendiği için hep 'güzel' bir kompozisyon kurar.",
     points: "gercek",
   },
   {

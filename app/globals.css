@@ -1294,3 +1294,106 @@ footer.site {
 .nav-yz .dot {
   margin-right: 8px;
 }
+
+/* Gerçek mi YZ mi: seviye seçimi */
+.level-title {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 0.95;
+  margin: 0;
+}
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.level-card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 340px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.level-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.level-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 11, 12, 0.05) 20%, rgba(11, 11, 12, 0.92) 78%);
+}
+.level-card:hover,
+.level-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--yz);
+}
+.level-card:hover img {
+  transform: scale(1.04);
+}
+.level-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+}
+.level-name {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 2rem;
+  line-height: 1;
+}
+.lv-kolay .level-name { color: var(--ok); }
+.lv-orta .level-name { color: #ffc24a; }
+.lv-zor .level-name { color: var(--bad); }
+.lv-karisik .level-name { color: var(--yz); }
+.level-text {
+  font-size: 0.9rem;
+  color: #d6d2ca;
+  line-height: 1.4;
+}
+.level-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 860px) {
+  .level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .level-card {
+    min-height: 240px;
+  }
+}
+@media (max-width: 480px) {
+  .level-card {
+    min-height: 200px;
+  }
+  .level-name {
+    font-size: 1.6rem;
+  }
+  .level-text {
+    font-size: 0.8rem;
+  }
+}

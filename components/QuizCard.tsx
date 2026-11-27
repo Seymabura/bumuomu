@@ -15,19 +15,13 @@ export function QuizCard({ q }: { q: QuizSummary }) {
             ))}
           </div>
         )}
+        <span className={`pill mode-${q.mode} mode-tag`}>{MODE_LABELS[q.mode]}</span>
       </div>
       <div className="body">
-        <span className={`pill mode-${q.mode}`} style={{ alignSelf: "flex-start" }}>
-          {MODE_LABELS[q.mode]}
-        </span>
         <h3>{q.title}</h3>
-        <div className="meta num">
-          <span>{q.itemCount} öğe</span>
-          <span>·</span>
-          <span>{q.plays.toLocaleString("tr-TR")} oynanma</span>
-          <span>·</span>
-          <span>{q.author}</span>
-        </div>
+        <span className="meta num">
+          {q.itemCount} seçenek, {q.plays ? `${q.plays.toLocaleString("tr-TR")} kez oynandı` : "henüz oynanmadı"}
+        </span>
       </div>
     </Link>
   );

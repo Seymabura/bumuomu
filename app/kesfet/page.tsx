@@ -35,7 +35,7 @@ export default async function Kesfet({ searchParams }: { searchParams: SP }) {
         <div className="seg" role="group" aria-label="Mod">
           <Link href={href({ mod: undefined })} aria-current={(!mode) ? "true" : undefined}>Tümü</Link>
           <Link href={href({ mod: "eleme" })} aria-current={(mode === "eleme") ? "true" : undefined}>Eleme</Link>
-          <Link href={href({ mod: "gercek-yz" })} aria-current={(mode === "gercek-yz") ? "true" : undefined}>Gerçek mi YZ mi</Link>
+          <Link href={href({ mod: "gercek-yz" })} aria-current={(mode === "gercek-yz") ? "true" : undefined}>Gerçek mi, YZ mi?</Link>
         </div>
         <div className="seg" role="group" aria-label="Sıralama">
           <Link href={href({ sirala: undefined })} aria-current={(sort === "populer") ? "true" : undefined}>Popüler</Link>

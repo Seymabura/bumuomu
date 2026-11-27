@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site">
           <div className="wrap row" style={{ justifyContent: "space-between" }}>
             <span>Bu mu O mu? Quizleri kullanıcılar oluşturur.</span>
-            <span>Örnek fotoğraflar Unsplash'ten, haklar sahiplerine aittir.</span>
+            <span>Örnek fotoğraflar Unsplash ve Google DOCCI (CC BY 4.0), yapay zekâ görselleri OpenFake (CC BY-NC 4.0) veri setinden. Haklar sahiplerine aittir.</span>
           </div>
         </footer>
       </body>
